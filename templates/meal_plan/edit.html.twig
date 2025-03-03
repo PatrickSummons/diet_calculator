@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Edit Meal Plan</h1>
+
+    {{ form_start(mealPlanForm) }}
+        <div id="meals-list" data-prototype="{{ form_widget(mealPlanForm.meals.vars.prototype)|e('html_attr') }}">
+            {% for mealField in mealPlanForm.meals %}
+                <div class="meal-item">
+                    {{ form_row(mealField) }}
+                    <button type="button" class="remove-meal">Remove</button>
+                </div>
+            {% endfor %}
+        </div>
+        <button type="button" id="add-meal">Add Meal</button>
+        <button type="submit" class="btn">Save</button>
+    {{ form_end(mealPlanForm) }}
+
+    <script>
+        document.getElementById('add-meal').addEventListener('click', function() {
+            var list = document.getElementById('meals-list');
+            var prototype = list.dataset.prototype;
+            var index = list.children.length;
+            var newForm = prototype.replace(/__name__/g, index);
+            var newDiv = document.createElement('div');
+            newDiv.classList.add('meal-item');
+            newDiv.innerHTML = newForm + '<button type="button" class="remove-meal">Remove</button>';
+            list.appendChild(newDiv);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-meal')) {
+                e.target.parentElement.remove();
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Meal Plan</h1>
+
+    {% if mealPlan %}
+        <ul>
+            {% for meal in mealPlan.meals %}
+                <li>{{ meal }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No meal plan found.</p>
+    {% endif %}
+
+    <a href="{{ path('app_meal_plan_edit') }}">Edit Meal Plan</a>
+{% endblock %}
